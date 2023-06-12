@@ -14,34 +14,44 @@ interface Props {
 
 function Row({index, row}: Props) {
     const [sign, setSign] = useState(row.sign);
-    const [value, setValue] = useState(row.value);
+    const [value, setValue] = useState("");
     const [isDisabled, setDisabled] = useState(row.isDisabled);
     const {updateRow, deleteRow} = useContext(ActionsContext);
 
-    useEffect(() => updateRow(index, {sign, value, isDisabled}), [sign, value, isDisabled, index]);
+    useEffect(() => handleUpdate(index, sign, value, isDisabled), [sign, value, isDisabled, index]);
 
-    const onChangeInputValue = (e) => {
-        const newValue = Number(e.target.value.length > 0 ? e.target.value : 0);
+    const handleUpdate = (index, sign, value, isDisabled) :void => {
+        const numericValue = Number(value.length > 0 ? value : "0");
+        updateRow(index, {sign, value:numericValue, isDisabled});
+    }
+
+    const onChangeInputValue = (e) :void => {
+        const newValue = e.target.value;
         setValue(newValue);
     }
 
-    const onChangeSignValue = (e) => {
+    const onChangeSignValue = (e) :void => {
         const newSign = Number(e.target.value) as Row['sign'];
         setSign(newSign);
     }
 
-    const onDeleteClick = () => {
+    const onDeleteClick = () :void => {
+        setValue("");
+        setDisabled(false);
+        setSign(1)
+
         deleteRow(index);
     }
 
     const buttonStyle = "h-full mx-1 bg-gray-200 hover:bg-gray-300 text-gray-500 font-bold rounded px-1"
-    const formStyle = "h-full mx-1 border border-gray-900 rounded bg-transparent text-gray-900 disabled:border-gray-400 disabled:bg-gray-100"
+    const formStyle = "h-full mx-1 pl-1 border border-gray-900 rounded bg-transparent text-gray-900 disabled:border-gray-400 disabled:bg-gray-100"
 
     return (
         <div className="items-center mt-2 h-7">
             <select className={formStyle}
                 disabled={isDisabled}
                 onChange={e => onChangeSignValue(e)}
+                value={sign}
             >
                 <option value={1}>+</option>
                 <option value={-1}>-</option>
@@ -50,6 +60,7 @@ function Row({index, row}: Props) {
                    disabled={isDisabled}
                    type="number"
                    onChange={e => onChangeInputValue(e)}
+                   value={value}
             />
 
             <button className={buttonStyle} onClick={onDeleteClick}>Delete</button>

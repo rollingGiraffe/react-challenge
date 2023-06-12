@@ -26,7 +26,7 @@ function App() {
         setRowList(list);
     }
 
-    const addRow = ():void => {
+    const addRow = (): void => {
         setRowList([...rowList, {sign: 1, value: 0, isDisabled: false}]);
     }
 
