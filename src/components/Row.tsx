@@ -19,7 +19,7 @@ function Row({ row }: Props) {
   const { updateRow, deleteRow } = useContext(ActionsContext)!;
 
   useEffect(
-    () => updateRow({ id: row.id, sign, value, isDisabled } as RowData),
+    () => updateRow({ id: row.id, sign, value, isDisabled }),
     [sign, value, isDisabled]
   );
 
