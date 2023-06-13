@@ -1,9 +1,8 @@
-import {createContext} from "react";
-import Row from "../components/Row";
+import { createContext } from "react";
+import { RowData } from "../components/Row";
 
 export const ActionsContext = createContext<{
-    updateRow: (index: number, row: Row) => void,
-    deleteRow: (index: number) => void,
-    addRow: () => void
-
+  updateRow: (row: RowData) => void;
+  deleteRow: (row: RowData) => void;
+  addRow: () => void;
 } | null>(null);
